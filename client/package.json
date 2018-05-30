@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start:dev": "parcel src/index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/ca057/thermalgram/issues"
   },
-  "homepage": "https://github.com/ca057/thermalgram#readme"
+  "homepage": "https://github.com/ca057/thermalgram#readme",
+  "devDependencies": {
+    "parcel-bundler": "^1.8.1",
+    "typescript": "^2.8.3"
+  }
 }
