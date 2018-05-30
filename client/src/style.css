@@ -1,0 +1,25 @@
+:root {
+  --color1: #845ec2;
+  --color2: #d65db1;
+  --color3: #ff6f91;
+  --color4: #ff9671;
+  --color5: #ffc75f;
+  --color6: #f9f871;
+}
+
+html {
+  font-size: 16px;
+  font-family: 'Patrick Hand', cursive;
+
+  @media screen and (min-width: 900px) {
+    font-size: 18px;
+  }
+
+  @media screen and (min-width: 1200px) {
+    font-size: 20px;
+  }
+}
+
+.title:nth-child(1) {
+  color: var(--color1);
+}
