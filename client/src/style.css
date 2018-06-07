@@ -20,6 +20,50 @@ html {
   }
 }
 
-.title:nth-child(1) {
-  color: var(--color1);
+.title {
+  text-align: center;
+
+  & span:nth-of-type(1) {
+    color: #845ec2;
+  }
+
+  & span:nth-of-type(2) {
+    color: #a260c7;
+  }
+
+  & span:nth-of-type(3) {
+    color: #c262cd;
+  }
+
+  & span:nth-of-type(4) {
+    color: #d264c0;
+  }
+
+  & span:nth-of-type(5) {
+    color: #d866a7;
+  }
+
+  & span:nth-of-type(6) {
+    color: #dd678c;
+  }
+
+  & span:nth-of-type(7) {
+    color: #e36970;
+  }
+
+  & span:nth-of-type(8) {
+    color: #e8856b;
+  }
+
+  & span:nth-of-type(9) {
+    color: #eea96d;
+  }
+
+  & span:nth-of-type(10) {
+    color: #f3cf6f;
+  }
+
+  & span:nth-of-type(11) {
+    color: #f9f871;
+  }
 }

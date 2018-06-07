@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "parcel src/index.html",
+    "start:dev": "parcel src/index.pug",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,6 +22,7 @@
     "postcss": "^6.0.22",
     "postcss-cssnext": "^3.1.0",
     "postcss-custom-properties": "^7.0.0",
+    "pug": "^2.0.3",
     "typescript": "^2.8.3"
   },
   "dependencies": {
