@@ -2,22 +2,54 @@ import { h } from 'hyperapp';
 
 interface Props {
   onNewPhoto: () => void;
-  viewfinderIsReady: boolean;
-  cameraIsReady: boolean;
+  currentPicture: String | null;
 }
 
-const takePicture = (callback: () => void) => (event: Event) => {
-  console.log('taking picture');
-
-  callback();
+const streamPicture = (element: HTMLVideoElement) => {
+  navigator.mediaDevices
+    .getUserMedia({
+      video: {
+        width: { exact: 384 },
+        facingMode: 'front',
+      },
+      audio: false,
+    })
+    .then(stream => {
+      element.srcObject = stream;
+      element.play();
+    });
 };
 
-export default ({ onNewPhoto, viewfinderIsReady, cameraIsReady }: Props) => (
+const takePicture = (callback: (img?: string) => void) => (event: Event) => {
+  console.log('taking picture');
+
+  const canvas = document.getElementById(
+    'camera-photo-canvas'
+  ) as HTMLCanvasElement;
+  const video = document.getElementById('camera-video') as HTMLVideoElement;
+
+  const context = canvas.getContext('2d');
+  if (!video || !canvas || !context) {
+    throw new Error('Whoah, there is no stuff we need');
+  }
+
+  canvas.height = video.videoHeight;
+  canvas.width = video.videoWidth;
+
+  context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+
+  callback(canvas.toDataURL('image/png'));
+};
+
+export default ({ onNewPhoto, currentPicture }: Props) => (
   <div class="camera">
-    <canvas class="camera-photo-canvas" />
+    <canvas id="camera-photo-canvas" />
     <div class="camera-viewfinder">
-      <video id="camera-video" />
-      <img id="camera-photo" alt="" />
+      {currentPicture ? (
+        <img id="camera-photo" src={currentPicture} />
+      ) : (
+        <video id="camera-video" oncreate={streamPicture} />
+      )}
     </div>
     <button type="button" onclick={takePicture(onNewPhoto)}>
       FOTO MACHEN

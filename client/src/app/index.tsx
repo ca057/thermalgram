@@ -4,31 +4,36 @@ import Camera from './components/Camera';
 
 type State = {
   camera: {
-    viewfinderIsReady: boolean;
-    cameraIsReady: boolean;
+    currentPicture: null | String;
   };
 };
 const state: State = {
   camera: {
-    viewfinderIsReady: false,
-    cameraIsReady: false,
+    currentPicture: null,
   },
 };
 
 interface Actions {
-  newPicture: () => (state: State) => State;
+  camera: {
+    newPicture: (picture?: String) => (state: State) => State;
+  };
 }
 const actions: Actions = {
-  newPicture: () => state => {
-    console.log('yeah, a new picture');
-    return state;
+  camera: {
+    newPicture: (currentPicture?: String) => state => {
+      console.log('yeah, a new picture');
+      return {
+        ...state,
+        currentPicture,
+      };
+    },
   },
 };
 
 const view = (state: State, actions: Actions) => (
   <main oncreate={console.log}>
     <div class="main-camera-container">
-      <Camera {...state.camera} onNewPhoto={actions.newPicture} />
+      <Camera {...state.camera} onNewPhoto={actions.camera.newPicture} />
     </div>
   </main>
 );

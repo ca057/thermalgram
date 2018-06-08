@@ -80,12 +80,16 @@ html {
   background: blue;
   display: block;
   width: 100%;
-  padding-top: 100%;
 }
 
-.camera-photo {
+#camera-video {
+  width: 100%;
 }
 
-.camera-photo-canvas {
+#camera-photo {
+  width: 100%;
+}
+
+#camera-photo-canvas {
   display: none;
 }
