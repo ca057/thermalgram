@@ -26,6 +26,7 @@
     "typescript": "^2.8.3"
   },
   "dependencies": {
+    "hyperapp": "^1.2.6",
     "wired-elements": "^0.5.8"
   }
 }

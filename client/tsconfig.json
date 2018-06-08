@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "lib": ["es6", "dom", "es7"],
+    "jsx": "react",
+    "jsxFactory": "h",
+    "strict": true
+  }
+}

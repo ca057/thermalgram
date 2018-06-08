@@ -1,15 +1,10 @@
 :root {
-  --color1: #845ec2;
-  --color2: #d65db1;
-  --color3: #ff6f91;
-  --color4: #ff9671;
-  --color5: #ffc75f;
-  --color6: #f9f871;
+  --spacing: 10px;
 }
 
 html {
   font-size: 16px;
-  font-family: 'Patrick Hand', cursive;
+  font-family: 'Patrick Hand';
 
   @media screen and (min-width: 900px) {
     font-size: 18px;
@@ -66,4 +61,31 @@ html {
   & span:nth-of-type(11) {
     color: #f9f871;
   }
+}
+
+.main-camera-container {
+  margin: var(--spacing) auto;
+  width: 80vw;
+}
+
+.camera {
+  background: green;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.camera-viewfinder {
+  background: blue;
+  display: block;
+  width: 100%;
+  padding-top: 100%;
+}
+
+.camera-photo {
+}
+
+.camera-photo-canvas {
+  display: none;
 }

@@ -1,3 +1,6 @@
 import 'wired-elements';
+import { app } from 'hyperapp';
 
-console.log('running');
+import { state, actions, view } from './app';
+
+app(state, actions, view, document.getElementById('app'));
