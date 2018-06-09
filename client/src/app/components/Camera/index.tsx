@@ -2,10 +2,12 @@ import { h } from 'hyperapp';
 
 interface Props {
   onNewPhoto: () => void;
-  currentPicture: String | null;
+  rejectPhoto: () => void;
+  acceptPhoto: () => void;
+  currentPhoto: String | null;
 }
 
-const streamPicture = (element: HTMLVideoElement) => {
+const streamPhoto = (element: HTMLVideoElement) => {
   navigator.mediaDevices
     .getUserMedia({
       video: {
@@ -20,9 +22,7 @@ const streamPicture = (element: HTMLVideoElement) => {
     });
 };
 
-const takePicture = (callback: (img?: string) => void) => (event: Event) => {
-  console.log('taking picture');
-
+const takePhoto = (callback: (img?: string) => void) => (event: Event) => {
   const canvas = document.getElementById(
     'camera-photo-canvas'
   ) as HTMLCanvasElement;
@@ -33,26 +33,44 @@ const takePicture = (callback: (img?: string) => void) => (event: Event) => {
     throw new Error('Whoah, there is no stuff we need');
   }
 
-  canvas.height = video.videoHeight;
-  canvas.width = video.videoWidth;
+  const { videoHeight, videoWidth } = video;
 
-  context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+  canvas.height = videoHeight;
+  canvas.width = videoWidth;
+  context.drawImage(video, 0, 0, videoWidth, videoHeight);
 
   callback(canvas.toDataURL('image/png'));
 };
 
-export default ({ onNewPhoto, currentPicture }: Props) => (
+export default ({
+  onNewPhoto,
+  currentPhoto,
+  rejectPhoto,
+  acceptPhoto,
+}: Props) => (
   <div class="camera">
     <canvas id="camera-photo-canvas" />
     <div class="camera-viewfinder">
-      {currentPicture ? (
-        <img id="camera-photo" src={currentPicture} />
-      ) : (
-        <video id="camera-video" oncreate={streamPicture} />
-      )}
+      <video
+        id="camera-video"
+        oncreate={streamPhoto}
+        style={{ display: currentPhoto ? 'none' : 'block' }}
+      />
+      {currentPhoto && <img id="camera-photo" src={currentPhoto} />}
     </div>
-    <button type="button" onclick={takePicture(onNewPhoto)}>
-      FOTO MACHEN
-    </button>
+    {currentPhoto ? (
+      <div>
+        <button type="button" onclick={rejectPhoto}>
+          NOCHMAL
+        </button>
+        <button type="button" onclick={acceptPhoto}>
+          ABSCHICKEN
+        </button>
+      </div>
+    ) : (
+      <button type="button" onclick={takePhoto(onNewPhoto)}>
+        FOTO MACHEN
+      </button>
+    )}
   </div>
 );
