@@ -15,12 +15,13 @@ type UploadBody = {
   };
 };
 
+const getStorageFilePath = (fileName: string) =>
+  path.join(process.cwd(), '__storage', fileName);
+
 export default (ctx: Context) => {
   const { payload, meta } = ctx.request.body as UploadBody;
 
   if (!payload) return;
-
-  console.log(path.join(process.cwd(), '__storage'));
 
   const imageInfo = payload.substring(5, payload.indexOf(';'));
   const encoding = payload.substring(
@@ -31,7 +32,11 @@ export default (ctx: Context) => {
 
   const imageBuffer = Buffer.from(imageData, encoding);
   const writeStream = fs.createWriteStream(
-    path.join(process.cwd(), '__storage', Date.now().toString() + '.png')
+    getStorageFilePath(
+      Date.now()
+        .toString()
+        .concat('.png')
+    )
   );
 
   writeStream.write(imageBuffer);
