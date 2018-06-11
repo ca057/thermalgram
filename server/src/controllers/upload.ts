@@ -30,16 +30,15 @@ export default (ctx: Context) => {
   );
   const imageData = payload.substring(payload.indexOf(','));
 
-  const imageBuffer = Buffer.from(imageData, encoding);
   const writeStream = fs.createWriteStream(
     getStorageFilePath(
       Date.now()
         .toString()
-        .concat('.png')
+        .concat(`.${imageInfo.split('/')[1] || 'png'}`)
     )
   );
 
-  writeStream.write(imageBuffer);
+  writeStream.write(Buffer.from(imageData, encoding));
   writeStream.end();
 
   ctx.body = 'UPLOAD';
