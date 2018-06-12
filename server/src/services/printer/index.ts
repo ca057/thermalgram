@@ -1,7 +1,16 @@
 import SerialPort from 'serialport';
 import Printer from 'thermalprinter';
 
-type ImageMeta = {};
+type ImageMeta =
+  | {
+      timestamp?: Number;
+      name?: String;
+      location?: {
+        lat: Number;
+        long: Number;
+      };
+    }
+  | undefined;
 
 export const printImage = (filePath: string, meta: ImageMeta) => {
   const serialport = new SerialPort(process.env.SERIAL_PORT || '/dev/serial0', {

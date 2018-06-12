@@ -1,6 +1,7 @@
 import { Context } from 'koa';
 
 import { processImage } from './../services/image';
+import { printImage } from './../services/printer';
 
 type UploadBody = {
   payload?: String;
@@ -32,6 +33,7 @@ export default async (ctx: Context) => {
     .concat(`.${imageInfo.split('/')[1] || 'png'}`);
 
   const filePath = await processImage(imageBuffer, { fileName });
+  await printImage(filePath, meta);
 
   ctx.body = 'UPLOAD';
 };
