@@ -1,7 +1,6 @@
 import { Context } from 'koa';
-import * as path from 'path';
-import * as fs from 'fs';
-import { Buffer } from 'buffer';
+
+import { processImage } from './../services/image';
 
 type UploadBody = {
   payload?: String;
@@ -15,10 +14,7 @@ type UploadBody = {
   };
 };
 
-const getStorageFilePath = (fileName: string) =>
-  path.join(process.cwd(), '__storage', fileName);
-
-export default (ctx: Context) => {
+export default async (ctx: Context) => {
   const { payload, meta } = ctx.request.body as UploadBody;
 
   if (!payload) return;
@@ -28,18 +24,14 @@ export default (ctx: Context) => {
     payload.indexOf(';') + 1,
     payload.indexOf(',')
   );
+
   const imageData = payload.substring(payload.indexOf(','));
+  const imageBuffer = Buffer.from(imageData, encoding);
+  const fileName = Date.now()
+    .toString()
+    .concat(`.${imageInfo.split('/')[1] || 'png'}`);
 
-  const writeStream = fs.createWriteStream(
-    getStorageFilePath(
-      Date.now()
-        .toString()
-        .concat(`.${imageInfo.split('/')[1] || 'png'}`)
-    )
-  );
-
-  writeStream.write(Buffer.from(imageData, encoding));
-  writeStream.end();
+  const filePath = await processImage(imageBuffer, { fileName });
 
   ctx.body = 'UPLOAD';
 };
