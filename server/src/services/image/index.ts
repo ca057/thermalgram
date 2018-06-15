@@ -14,6 +14,7 @@ export const processImage = (
   imageBuffer: Buffer,
   processingOptions?: ProcessingOptions
 ) => {
+  console.log('SERVICE/IMAGE image for processing received');
   const options = {
     width: 384,
     height: null,
@@ -21,11 +22,15 @@ export const processImage = (
     ...processingOptions,
   };
   const filePath = getStorageFilePath(options.fileName);
+  console.log('SERVICE/IMAGE file path for image will be', filePath);
 
   return sharp(imageBuffer)
     .resize(options.width)
     .gamma()
     .grayscale()
     .toFile(filePath)
-    .then(() => filePath);
+    .then(() => {
+      console.log('SERVICE/IMAGE image processing finished');
+      return filePath;
+    });
 };

@@ -16,6 +16,7 @@ type UploadBody = {
 };
 
 export default async (ctx: Context) => {
+  console.log('CONTROLLER/UPLOAD received request');
   const { payload, meta } = ctx.request.body as UploadBody;
 
   if (!payload) return;
@@ -33,7 +34,9 @@ export default async (ctx: Context) => {
     .concat(`.${imageInfo.split('/')[1] || 'png'}`);
 
   const filePath = await processImage(imageBuffer, { fileName });
+  console.log('CONTROLLER/UPLOAD image processed, start printing');
   await printImage(filePath, meta);
+  console.log('CONTROLLER/UPLOAD image printed, everything is done');
 
   ctx.body = 'UPLOAD';
 };

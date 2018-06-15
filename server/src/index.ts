@@ -4,6 +4,8 @@ import * as bodyParser from 'koa-bodyparser';
 
 import { home, ping, upload } from './controllers';
 
+const PORT = process.env.PORT || 4321;
+
 const app = new Koa();
 const router = new Router({ prefix: '/api/v1' });
 
@@ -12,8 +14,12 @@ router
   .get('/ping', ping)
   .post('/upload', upload);
 
-app
+const server = app
   .use(bodyParser())
   .use(router.routes())
   .use(router.allowedMethods())
-  .listen(4321);
+  .listen(PORT);
+
+server.on('listening', () => {
+  console.log(`Server is listening on :${PORT}`);
+});
