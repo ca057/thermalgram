@@ -19,7 +19,6 @@ type UploadBody = {
 export default async (ctx: Context) => {
   console.log('CONTROLLER/UPLOAD received request');
   const { payload, meta } = ctx.request.body as UploadBody;
-  console.log(ctx.request);
 
   if (!payload) {
     ctx.body = { message: 'UPLOAD no payload?! Do it better next time!' };

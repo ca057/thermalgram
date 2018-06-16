@@ -5,6 +5,7 @@ interface Props {
   rejectPhoto: () => void;
   acceptPhoto: () => void;
   currentPhoto: String | null;
+  isUploading: boolean;
 }
 
 const streamPhoto = (element: HTMLVideoElement) => {
@@ -47,6 +48,7 @@ export default ({
   currentPhoto,
   rejectPhoto,
   acceptPhoto,
+  isUploading,
 }: Props) => (
   <div class="camera">
     <canvas id="camera-photo-canvas" />
@@ -58,6 +60,7 @@ export default ({
       />
       {currentPhoto && <img id="camera-photo" src={currentPhoto} />}
     </div>
+    {isUploading && <p>Foto lädt hoch und wird gedruckt...</p>}
     {currentPhoto ? (
       <div>
         <button type="button" onclick={rejectPhoto}>

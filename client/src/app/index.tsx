@@ -5,6 +5,7 @@ import Camera from './components/Camera';
 
 type CameraState = {
   currentPhoto: null | string;
+  isUploading: boolean;
 };
 type State = {
   camera: CameraState;
@@ -13,6 +14,7 @@ type State = {
 const state: State = {
   camera: {
     currentPhoto: null,
+    isUploading: false,
   },
 };
 
@@ -20,6 +22,8 @@ type CameraActions = {
   newPhoto: (picture?: string) => (state: CameraState) => CameraState;
   clearPhoto: () => (state: CameraState) => CameraState;
   sendPhotoToServer: () => (state: CameraState, actions: CameraActions) => void;
+  startUpload: () => (state: CameraState) => CameraState;
+  finishUpload: () => (state: CameraState) => CameraState;
 };
 type Actions = {
   camera: CameraActions;
@@ -38,12 +42,22 @@ const actions = {
       state: CameraState,
       actions: CameraActions
     ) => {
-      // send to server
-      if (state.currentPhoto === null) return;
-      await upload({ payload: state.currentPhoto });
-      // then
+      if (state.currentPhoto !== null) {
+        actions.startUpload();
+        await upload({ payload: state.currentPhoto });
+        actions.finishUpload();
+      }
+
       actions.clearPhoto();
     },
+    startUpload: () => (state: CameraState) => ({
+      ...state,
+      isUploading: true,
+    }),
+    finishUpload: () => (state: CameraState) => ({
+      ...state,
+      isUploading: false,
+    }),
   },
 };
 
