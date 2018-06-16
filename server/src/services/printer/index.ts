@@ -1,6 +1,8 @@
 const SerialPort = require('serialport');
 const Printer = require('thermalprinter');
 
+import config from './../../config';
+
 type ImageMeta =
   | {
       timestamp?: Number;
@@ -14,9 +16,8 @@ type ImageMeta =
 
 export const printImage = (filePath: string, meta: ImageMeta) => {
   console.log('SERVICE/PRINTER received image at', filePath);
-  const serialport = new SerialPort(process.env.SERIAL_PORT || '/dev/serial0', {
-    baudRate:
-      (process.env.BAUD_RATE && parseInt(process.env.BAUD_RATE, 10)) || 19200,
+  const serialport = new SerialPort(config.SERIAL_PORT, {
+    baudRate: config.BAUD_RATE,
   });
 
   return new Promise((done, error) => {

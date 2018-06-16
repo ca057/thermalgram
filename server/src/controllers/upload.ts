@@ -1,5 +1,6 @@
 import { Context } from 'koa';
 
+import config from './../config';
 import { processImage } from './../services/image';
 import { printImage } from './../services/printer';
 
@@ -19,7 +20,7 @@ export default async (ctx: Context) => {
   console.log('CONTROLLER/UPLOAD received request');
   const { payload, meta } = ctx.request.body as UploadBody;
 
-  if (!payload) return;
+  if (!payload || !config.CAN_PRINT) return;
 
   const imageInfo = payload.substring(5, payload.indexOf(';'));
   const encoding = payload.substring(
@@ -34,9 +35,10 @@ export default async (ctx: Context) => {
     .concat(`.${imageInfo.split('/')[1] || 'png'}`);
 
   const filePath = await processImage(imageBuffer, { fileName });
+
   console.log('CONTROLLER/UPLOAD image processed, start printing');
   await printImage(filePath, meta);
   console.log('CONTROLLER/UPLOAD image printed, everything is done');
 
-  ctx.body = 'UPLOAD';
+  ctx.body = 'UPLOAD and PRINTING successful, now go on with your lives!';
 };
