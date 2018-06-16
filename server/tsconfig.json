@@ -5,7 +5,8 @@
     "module": "commonjs",
     "outDir": "dist",
     "sourceMap": true,
-    "strict": true
+    "strict": true,
+    "noImplicitAny": false
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
