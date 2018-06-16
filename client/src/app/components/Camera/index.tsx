@@ -60,7 +60,7 @@ export default ({
       />
       {currentPhoto && <img id="camera-photo" src={currentPhoto} />}
     </div>
-    {isUploading && <p>Dein Foto lädt hoch und wird gedruckt...</p>}
+    {isUploading && <p>Dein Foto lädt hoch und wird in die Druckschlange gesetzt...</p>}
     {currentPhoto ? (
       <div>
         <button type="button" onclick={rejectPhoto}>

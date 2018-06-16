@@ -2,9 +2,14 @@
   --spacing: 10px;
 }
 
+html,
+input,
+button {
+  font-family: 'Patrick Hand';
+}
+
 html {
   font-size: 16px;
-  font-family: 'Patrick Hand';
 
   @media screen and (min-width: 900px) {
     font-size: 18px;
@@ -63,9 +68,18 @@ html {
   }
 }
 
-.main-camera-container {
+main {
   margin: var(--spacing) auto;
   width: 80vw;
+}
+
+form > * {
+  display: block;
+  margin: var(--spacing) auto;
+}
+
+form > input {
+  width: 100%;
 }
 
 .camera {

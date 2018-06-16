@@ -2,6 +2,15 @@ import { h } from 'hyperapp';
 
 import { upload } from './api';
 import Camera from './components/Camera';
+import Loading from './components/Loading';
+import Config from './components/Config';
+import { getStoredConfig, setStoredConfig } from './util/config';
+
+enum Screens {
+  LOADING,
+  CONFIG,
+  CAMERA,
+}
 
 type CameraState = {
   currentPhoto: null | string;
@@ -14,6 +23,7 @@ type ConfigState = {
 type State = {
   camera: CameraState;
   config: ConfigState;
+  currentScreen: Screens;
 };
 
 const state: State = {
@@ -25,6 +35,7 @@ const state: State = {
     serverUrl: null,
     name: null,
   },
+  currentScreen: Screens.LOADING,
 };
 
 type CameraActions = {
@@ -34,10 +45,25 @@ type CameraActions = {
   startUpload: () => (state: CameraState) => CameraState;
   finishUpload: () => (state: CameraState) => CameraState;
 };
+type ConfigActions = {
+  setConfig: (config: ConfigState) => (state: ConfigState) => ConfigState;
+};
 type Actions = {
   camera: CameraActions;
+  config: ConfigActions;
+  setScreen: (nextScreen: Screens) => (state: State) => State;
 };
 const actions = {
+  setScreen: (nextScreen: Screens) => (state: State) => ({
+    ...state,
+    currentScreen: nextScreen,
+  }),
+  config: {
+    setConfig: (config: ConfigState) => (state: ConfigState) => {
+      setStoredConfig(config);
+      return config;
+    },
+  },
   camera: {
     newPhoto: (currentPhoto?: string) => (state: CameraState) => ({
       ...state,
@@ -72,29 +98,46 @@ const actions = {
   },
 };
 
-const onCreate = (state: State, actions: Actions) => () => {
-  console.log(state);
-  let config = null;
-  try {
-    config = JSON.parse(
-      window.localStorage.getItem('thermalgram_config') || ''
-    );
-  } catch (error) {}
-  if (config === null) {
-    console.log('no stored config found');
+const onAppCreate = (state: State, actions: Actions) => () => {
+  const config = getStoredConfig();
+  console.log({ config });
+  if (config.serverUrl === null) {
+    actions.setScreen(Screens.CONFIG);
+  } else {
+    actions.config.setConfig(config);
+    actions.setScreen(Screens.CAMERA);
+  }
+};
+
+const getScreen = (state: State, actions: Actions) => {
+  switch (state.currentScreen) {
+    case Screens.CAMERA:
+      return (
+        <Camera
+          {...state.camera}
+          onNewPhoto={actions.camera.newPhoto}
+          rejectPhoto={actions.camera.clearPhoto}
+          acceptPhoto={actions.camera.sendPhotoToServer}
+        />
+      );
+    case Screens.CONFIG:
+      return (
+        <Config
+          setConfig={config => {
+            actions.config.setConfig(config);
+            actions.setScreen(Screens.CAMERA);
+          }}
+        />
+      );
+    case Screens.LOADING:
+    default:
+      return <Loading />;
   }
 };
 
 const view = (state: State, actions: Actions) => (
-  <main oncreate={onCreate(state, actions)}>
-    <div class="main-camera-container">
-      <Camera
-        {...state.camera}
-        onNewPhoto={actions.camera.newPhoto}
-        rejectPhoto={actions.camera.clearPhoto}
-        acceptPhoto={actions.camera.sendPhotoToServer}
-      />
-    </div>
+  <main oncreate={onAppCreate(state, actions)}>
+    {getScreen(state, actions)}
   </main>
 );
 
