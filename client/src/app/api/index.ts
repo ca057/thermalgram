@@ -1,5 +1,5 @@
 const PROTOCOL = 'http';
-const SERVER_URL = 'localhost:4321';
+const SERVER_URL = '192.168.0.14';
 const API_PREFIX = '/api/v1';
 
 const API_URL = `${PROTOCOL}://${SERVER_URL}${API_PREFIX}`;

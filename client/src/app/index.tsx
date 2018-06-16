@@ -7,14 +7,23 @@ type CameraState = {
   currentPhoto: null | string;
   isUploading: boolean;
 };
+type ConfigState = {
+  serverUrl: null | string;
+  name: null | string;
+};
 type State = {
   camera: CameraState;
+  config: ConfigState;
 };
 
 const state: State = {
   camera: {
     currentPhoto: null,
     isUploading: false,
+  },
+  config: {
+    serverUrl: null,
+    name: null,
   },
 };
 
@@ -44,7 +53,9 @@ const actions = {
     ) => {
       if (state.currentPhoto !== null) {
         actions.startUpload();
-        await upload({ payload: state.currentPhoto });
+        try {
+          await upload({ payload: state.currentPhoto });
+        } catch (error) {}
         actions.finishUpload();
       }
 
@@ -61,8 +72,21 @@ const actions = {
   },
 };
 
+const onCreate = (state: State, actions: Actions) => () => {
+  console.log(state);
+  let config = null;
+  try {
+    config = JSON.parse(
+      window.localStorage.getItem('thermalgram_config') || ''
+    );
+  } catch (error) {}
+  if (config === null) {
+    console.log('no stored config found');
+  }
+};
+
 const view = (state: State, actions: Actions) => (
-  <main oncreate={console.log}>
+  <main oncreate={onCreate(state, actions)}>
     <div class="main-camera-container">
       <Camera
         {...state.camera}
