@@ -4,6 +4,7 @@ dotenv.config();
 import * as Koa from 'koa';
 import * as Router from 'koa-router';
 import * as bodyParser from 'koa-bodyparser';
+import * as cors from '@koa/cors';
 
 import config from './config';
 import { home, ping, upload } from './controllers';
@@ -17,6 +18,7 @@ router
   .post('/upload', upload);
 
 const server = app
+  .use(cors())
   .use(bodyParser())
   .use(router.routes())
   .use(router.allowedMethods())

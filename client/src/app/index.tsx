@@ -1,14 +1,15 @@
 import { h } from 'hyperapp';
 
+import { upload } from './api';
 import Camera from './components/Camera';
 
 type CameraState = {
-  currentPhoto: null | String;
+  currentPhoto: null | string;
 };
-
 type State = {
   camera: CameraState;
 };
+
 const state: State = {
   camera: {
     currentPhoto: null,
@@ -16,16 +17,16 @@ const state: State = {
 };
 
 type CameraActions = {
-  newPhoto: (picture?: String) => (state: CameraState) => CameraState;
+  newPhoto: (picture?: string) => (state: CameraState) => CameraState;
   clearPhoto: () => (state: CameraState) => CameraState;
   sendPhotoToServer: () => (state: CameraState, actions: CameraActions) => void;
 };
 type Actions = {
   camera: CameraActions;
 };
-const actions: Actions = {
+const actions = {
   camera: {
-    newPhoto: (currentPhoto?: String) => state => ({
+    newPhoto: (currentPhoto?: string) => (state: CameraState) => ({
       ...state,
       currentPhoto: currentPhoto || null,
     }),
@@ -33,8 +34,13 @@ const actions: Actions = {
       ...state,
       currentPhoto: null,
     }),
-    sendPhotoToServer: () => (state: CameraState, actions: CameraActions) => {
+    sendPhotoToServer: () => async (
+      state: CameraState,
+      actions: CameraActions
+    ) => {
       // send to server
+      if (state.currentPhoto === null) return;
+      await upload({ payload: state.currentPhoto });
       // then
       actions.clearPhoto();
     },

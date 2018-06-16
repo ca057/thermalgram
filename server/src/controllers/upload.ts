@@ -19,16 +19,11 @@ type UploadBody = {
 export default async (ctx: Context) => {
   console.log('CONTROLLER/UPLOAD received request');
   const { payload, meta } = ctx.request.body as UploadBody;
+  console.log(ctx.request);
 
   if (!payload) {
-    ctx.body = 'UPLOAD no payload?! Do it better next time!';
+    ctx.body = { message: 'UPLOAD no payload?! Do it better next time!' };
     ctx.status = 400;
-    return;
-  }
-
-  if (!config.CAN_PRINT) {
-    ctx.body =
-      "UPLOAD thanks for the nice image, but we can't print in this environment, sorry :(";
     return;
   }
 
@@ -46,9 +41,19 @@ export default async (ctx: Context) => {
 
   const filePath = await processImage(imageBuffer, { fileName });
 
+  if (!config.CAN_PRINT) {
+    ctx.body = {
+      message:
+        "UPLOAD thanks for the nice image, but we can't print in this environment, sorry :(",
+    };
+    return;
+  }
+
   console.log('CONTROLLER/UPLOAD image processed, start printing');
   await printImage(filePath, meta);
   console.log('CONTROLLER/UPLOAD image printed, everything is done');
 
-  ctx.body = 'UPLOAD and PRINTING successful, now go on with your lives!';
+  ctx.body = {
+    message: 'UPLOAD and PRINTING successful, now go on with your lives!',
+  };
 };
