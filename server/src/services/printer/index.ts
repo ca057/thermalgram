@@ -27,11 +27,17 @@ export const printImage = (filePath: string, meta: ImageMeta) => {
       printer.on('ready', () => {
         console.log('SERVICE/PRINTER printer is ready, printing starts');
         printer
+          .horizontalLine(32)
           .indent(10)
-          .horizontalLine(16)
           .printLine('THERMALGRAM')
+          .indent(0)
+          .lineFeed(1)
           .printImage(filePath)
+          .lineFeed(1)
+          .printLine(`by ${(meta && meta.name) || '?'} with <3`)
+          .lineFeed(3)
           .print(() => {
+            serialport.close();
             console.log('SERVICE/PRINTER printing is done');
             done();
           });
