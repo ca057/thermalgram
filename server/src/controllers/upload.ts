@@ -20,7 +20,17 @@ export default async (ctx: Context) => {
   console.log('CONTROLLER/UPLOAD received request');
   const { payload, meta } = ctx.request.body as UploadBody;
 
-  if (!payload || !config.CAN_PRINT) return;
+  if (!payload) {
+    ctx.body = 'UPLOAD no payload?! Do it better next time!';
+    ctx.status = 400;
+    return;
+  }
+
+  if (!config.CAN_PRINT) {
+    ctx.body =
+      "UPLOAD thanks for the nice image, but we can't print in this environment, sorry :(";
+    return;
+  }
 
   const imageInfo = payload.substring(5, payload.indexOf(';'));
   const encoding = payload.substring(
