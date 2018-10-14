@@ -1,0 +1,44 @@
+{
+  "name": "thermalgram-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch & nodemon dist",
+    "tsc": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "./scripts/start.sh",
+    "clean": "rm -rf __storage/*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ca057/thermalgram.git"
+  },
+  "author": "Christian Ost",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/ca057/thermalgram/issues"
+  },
+  "homepage": "https://github.com/ca057/thermalgram#readme",
+  "devDependencies": {
+    "@types/dotenv": "^4.0.3",
+    "@types/koa": "^2.0.46",
+    "@types/koa-bodyparser": "^4.2.0",
+    "@types/koa-router": "^7.0.28",
+    "@types/node": "^10.3.2",
+    "@types/sharp": "^0.17.8",
+    "nodemon": "^1.17.5",
+    "typescript": "^2.9.1"
+  },
+  "dependencies": {
+    "@koa/cors": "^2.2.1",
+    "dotenv": "^6.0.0",
+    "koa": "^2.5.1",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "serialport": "^6.2.0",
+    "sharp": "^0.20.3",
+    "thermalprinter": "^0.3.8"
+  }
+}

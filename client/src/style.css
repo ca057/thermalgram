@@ -1,0 +1,109 @@
+:root {
+  --spacing: 10px;
+}
+
+html,
+input,
+button {
+  font-family: 'Patrick Hand';
+}
+
+html {
+  font-size: 16px;
+
+  @media screen and (min-width: 900px) {
+    font-size: 18px;
+  }
+
+  @media screen and (min-width: 1200px) {
+    font-size: 20px;
+  }
+}
+
+.title {
+  text-align: center;
+
+  & span:nth-of-type(1) {
+    color: #845ec2;
+  }
+
+  & span:nth-of-type(2) {
+    color: #a260c7;
+  }
+
+  & span:nth-of-type(3) {
+    color: #c262cd;
+  }
+
+  & span:nth-of-type(4) {
+    color: #d264c0;
+  }
+
+  & span:nth-of-type(5) {
+    color: #d866a7;
+  }
+
+  & span:nth-of-type(6) {
+    color: #dd678c;
+  }
+
+  & span:nth-of-type(7) {
+    color: #e36970;
+  }
+
+  & span:nth-of-type(8) {
+    color: #e8856b;
+  }
+
+  & span:nth-of-type(9) {
+    color: #eea96d;
+  }
+
+  & span:nth-of-type(10) {
+    color: #f3cf6f;
+  }
+
+  & span:nth-of-type(11) {
+    color: #f9f871;
+  }
+}
+
+main {
+  margin: var(--spacing) auto;
+  width: 80vw;
+}
+
+form > * {
+  display: block;
+  margin: var(--spacing) auto;
+}
+
+form > input {
+  width: 100%;
+}
+
+.camera {
+  background: green;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.camera-viewfinder {
+  background: blue;
+  display: block;
+  width: 100%;
+}
+
+#camera-video {
+  width: 100%;
+}
+
+#camera-photo {
+  width: 100%;
+}
+
+#camera-photo-canvas {
+  display: none;
+}

@@ -1,0 +1,32 @@
+{
+  "name": "thermalgram-client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "parcel src/index.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ca057/thermalgram.git"
+  },
+  "author": "Christian Ost",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/ca057/thermalgram/issues"
+  },
+  "homepage": "https://github.com/ca057/thermalgram#readme",
+  "devDependencies": {
+    "parcel-bundler": "^1.8.1",
+    "postcss": "^6.0.22",
+    "postcss-cssnext": "^3.1.0",
+    "postcss-custom-properties": "^7.0.0",
+    "pug": "^2.0.3",
+    "typescript": "^2.8.3"
+  },
+  "dependencies": {
+    "hyperapp": "^1.2.6",
+    "wired-elements": "^0.5.8"
+  }
+}
